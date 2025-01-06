@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="App">
       <h4>Stopwatch</h4>
-      <p>Timer: {formatTime()}</p>
+      <p>Time: {formatTime()}</p>
       <button onClick={handleStartStop}>{play ? "Stop" : "Start"}</button>
       <button onClick={handleReset}>Reset</button>
     </div>
