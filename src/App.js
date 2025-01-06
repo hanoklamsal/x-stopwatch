@@ -1,23 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import { React, useState } from 'react';
 
 function App() {
+  const [play, setPlay] = useState(false);
+  const [time, setTime] = useState(0);
+  const [intervalId, setIntervalId] = useState(null);
+
+  const handleStartStop = () => {
+    if (play) {
+      clearInterval(intervalId);
+    } else {
+      const id = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
+      }, 1000);
+      setIntervalId(id);
+    }
+    setPlay(!play);
+  };
+
+  const handleReset = () => {
+    clearInterval(intervalId);
+    setPlay(false);
+    setTime(0);
+  };
+
+  const formatTime = () => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h4>Stopwatch</h4>
+      <p>Timer: {formatTime()}</p>
+      <button onClick={handleStartStop}>{play ? "Stop" : "Start"}</button>
+      <button onClick={handleReset}>Reset</button>
     </div>
   );
 }
